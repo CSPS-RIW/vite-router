@@ -12,7 +12,7 @@ function increment() {
 
 // lifecycle hooks
 onMounted(() => {
-  console.log(`The initial count is ${count.value}.`)
+  // localStorage.setItem('InputMessage', )
 })
 </script>
 <template>
@@ -22,7 +22,7 @@ onMounted(() => {
     <p class="mb-sm"><span class="instructions">Instructions:</span> Write something about
       RIW</p>
     <input v-model="message" placeholder="What do you think about RIW?"
-      class="custom-input">
+      class="custom-input" name="input-message">
     <p class="mt-sm">{{ message }}</p>
   </div>
 </template>
