@@ -62,6 +62,7 @@ h1 {
   width: 20rem;
   height: 3rem;
   font-size: 1.25rem;
+  padding-left: 0.75rem;
 }
 
 .mb-sm {
