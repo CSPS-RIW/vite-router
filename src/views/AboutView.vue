@@ -37,7 +37,7 @@ onMounted(() => {
         <h2>Instructions: Write something about
           RIW</h2>
         <input v-model="message" type="text" placeholder="What do you think about RIW?"
-          class="custom-input" name="input-message">
+          class="custom-input" name="input-message" autocomplete="off">
       </form>
       <p class="mt-sm">{{ message }}</p>
 

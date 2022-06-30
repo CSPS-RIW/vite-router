@@ -35,11 +35,9 @@ nav {
 
             }
 
-            &:hover {
-                color: coral;
-            }
-
+            &:hover,
             &.router-link-active {
+                color: coral;
                 text-decoration: underline;
             }
         }
