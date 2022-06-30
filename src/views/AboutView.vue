@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
 
-const messages = ref()
+const messages = ref([])
 const name = ref<string>()
 const inputContent = ref<string>()
 
@@ -13,8 +13,18 @@ const addMesage = () => {
   if (inputContent.value?.trim() === '' || inputContent.value === undefined) {
     return
   }
-  alert('todo')
+  messages.value.push({
+    content: inputContent.value,
+    timeOfCreation: new Date().getTime()
+  })
+
+  inputContent.value = ''
+
 }
+
+watch(messages, newMessage => {
+  localStorage.setItem('phrases', JSON.stringify(newMessage))
+}, { deep: true })
 
 watch(name, (newName) => {
   localStorage.setItem('name', newName!)
@@ -22,6 +32,7 @@ watch(name, (newName) => {
 
 onMounted(() => {
   name.value = localStorage.getItem('name')!
+  messages.value = JSON.parse(localStorage.getItem('phrases')!) || []
 })
 
 </script>
@@ -36,13 +47,36 @@ onMounted(() => {
         v-model="inputContent">
       <button class="btn btn-primary">Save message</button>
     </form>
+    <div class="about-show" aria-live="polite">
+      <section>
+        <h2>
+          Your RIW Messages
+        </h2>
+        <div v-for="message in messagesAscending" :key="message.content">
+          <p class="fun-text">{{ message.content }}</p>
+        </div>
+      </section>
+    </div>
+
 
   </div>
 </template>
 
 <style scoped lang="scss">
+.about {
+  width: 80vw;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+}
+
 h1 {
   color: green;
+}
+
+.fixed {
+  width: 30rem;
 }
 
 .btn {
