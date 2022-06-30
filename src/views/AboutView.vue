@@ -1,48 +1,41 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 
-// reactive state
-const count = ref(0)
-const message = ref<string>()
+const messages = ref()
+const name = ref<string>()
+const inputContent = ref<string>()
 
-// functions that mutate state and trigger updates
-const increment = () => {
-  count.value++
+const messagesAscending = computed(() => messages.value.sort((a: any, b: any) => {
+  return b.createdAt - a.createdAt
+}))
+
+const addMesage = () => {
+  if (inputContent.value?.trim() === '' || inputContent.value === undefined) {
+    return
+  }
+  alert('todo')
 }
 
-const addMessage = () => {
-  console.log(message.value)
-}
-watch(message, newMessage => {
-  localStorage.setItem('messages', JSON.stringify(newMessage))
-  console.log(newMessage)
-
-}, { deep: true })
-// lifecycle hooks
-onMounted(() => {
-
-  // message.value = localStorage.getItem('message') || ''
+watch(name, (newName) => {
+  localStorage.setItem('name', newName!)
 })
 
+onMounted(() => {
+  name.value = localStorage.getItem('name')!
+})
 
 </script>
 <template>
   <div class="about">
-    <div class="live-heading" aria-live="polite">
-      <h1>This is an about page with count of {{ count }}</h1>
-    </div>
-    <button class="btn btn-primary" @click="increment">Count</button>
-    <div class="activity">
-      <form action="POST" @submit.prevent="addMessage">
-        <h2>Instructions: Write something about
-          RIW</h2>
-        <input v-model="message" type="text" placeholder="What do you think about RIW?"
-          class="custom-input" name="input-message" autocomplete="off">
-      </form>
-      <p class="mt-sm">{{ message }}</p>
-
-      <button class="btn btn-secondary">Add message</button>
-    </div>
+    <h2>Hello {{ name }}</h2>
+    <input type="text" name="message" id="message" class="mt-sm custom-input"
+      placeholder="Write your name here" v-model="name">
+    <form action="POST" @submit.prevent="addMesage" class="riw-form">
+      <p class="instructions mt-sm">Write something about RIW</p>
+      <input type="text" placeholder="Write somenting here" class="mt-xsm custom-input"
+        v-model="inputContent">
+      <button class="btn btn-primary">Save message</button>
+    </form>
 
   </div>
 </template>
@@ -88,7 +81,7 @@ h1 {
   padding-left: 0.75rem;
 }
 
-.activity {
+.riw-form {
   display: flex;
   flex-flow: column wrap;
   justify-items: flex-start;
@@ -105,5 +98,9 @@ h1 {
 
 .mt-sm {
   margin-top: 1rem;
+}
+
+.mt-xsm {
+  margin-top: 0.5rem;
 }
 </style>
