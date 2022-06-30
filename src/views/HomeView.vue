@@ -1,11 +1,11 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted, watch, computed } from 'vue'
 
 const messages = ref([])
-const name = ref<string>()
-const inputContent = ref<string>()
+const name = ref()
+const inputContent = ref()
 
-const messagesAscending = computed(() => messages.value.sort((a: any, b: any) => {
+const messagesAscending = computed(() => messages.value.sort((a, b) => {
   return b.createdAt - a.createdAt
 }))
 
@@ -27,12 +27,12 @@ watch(messages, newMessage => {
 }, { deep: true })
 
 watch(name, (newName) => {
-  localStorage.setItem('name', newName!)
+  localStorage.setItem('name', newName)
 })
 
 onMounted(() => {
-  name.value = localStorage.getItem('name')!
-  messages.value = JSON.parse(localStorage.getItem('phrases')!) || []
+  name.value = localStorage.getItem('name')
+  messages.value = JSON.parse(localStorage.getItem('phrases')) || []
 })
 
 </script>
